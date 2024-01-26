@@ -1,8 +1,11 @@
 package com.Phenix13.Safetynet.model;
 
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
 public class FireStation {
-    String address;
-    Integer station;
+    private String address;
+    private Integer station;
 
     public String getAddress() {
         return address;

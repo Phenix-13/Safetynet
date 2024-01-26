@@ -1,13 +1,16 @@
 package com.Phenix13.Safetynet.model;
 
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
 public class Person {
-    String firstName;
-    String lastName;
-    String address;
-    String city;
-    String zip;
-    String phone;
-    String email;
+    private String firstName;
+    private String lastName;
+    private String address;
+    private String city;
+    private String zip;
+    private String phone;
+    private String email;
     public String getFirstName() {
         return firstName;
     }
