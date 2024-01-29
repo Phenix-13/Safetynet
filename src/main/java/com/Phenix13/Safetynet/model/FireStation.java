@@ -2,10 +2,10 @@ package com.Phenix13.Safetynet.model;
 
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController
+
 public class FireStation {
     private String address;
-    private Integer station;
+    private String station;
 
     public String getAddress() {
         return address;
@@ -15,11 +15,19 @@ public class FireStation {
         this.address = address;
     }
 
-    public Integer getStation() {
+    public String getStation() {
         return station;
     }
 
-    public void setStation(Integer station) {
+    public void setStation(String station) {
         this.station = station;
+    }
+
+    public FireStation(String address, String station) {
+        this.address = address;
+        this.station = station;
+    }
+
+    public FireStation() {
     }
 }

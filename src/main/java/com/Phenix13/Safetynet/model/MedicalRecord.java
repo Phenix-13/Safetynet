@@ -4,7 +4,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Date;
 import java.util.List;
-@RestController
+
 public class MedicalRecord {
     private String firstName;
     private String lastName;
@@ -50,5 +50,16 @@ public class MedicalRecord {
 
     public void setAllergies(List<String> allergies) {
         this.allergies = allergies;
+    }
+
+    public MedicalRecord(String firstName, String lastName, Date birthdate, List<String> medications, List<String> allergies) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.birthdate = birthdate;
+        this.medications = medications;
+        this.allergies = allergies;
+    }
+
+    public MedicalRecord() {
     }
 }

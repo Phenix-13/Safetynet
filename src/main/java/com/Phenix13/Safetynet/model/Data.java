@@ -1,13 +1,13 @@
 package com.Phenix13.Safetynet.model;
 
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
-@RestController
+@Component
 public class Data {
     private List<Person> persons;
-    private List<FireStation> fireStations;
-    private List<MedicalRecord> medicalRecords;
+    private List<FireStation> firestations;
+    private List<MedicalRecord> medicalrecords;
 
     public List<Person> getPersons() {
         return persons;
@@ -17,19 +17,28 @@ public class Data {
         this.persons = persons;
     }
 
-    public List<FireStation> getFireStations() {
-        return fireStations;
+    public List<FireStation> getFirestations() {
+        return firestations;
     }
 
-    public void setFireStations(List<FireStation> fireStations) {
-        this.fireStations = fireStations;
+    public void setFirestations(List<FireStation> firestations) {
+        this.firestations = firestations;
     }
 
-    public List<MedicalRecord> getMedicalRecords() {
-        return medicalRecords;
+    public List<MedicalRecord> getMedicalrecords() {
+        return medicalrecords;
     }
 
-    public void setMedicalRecords(List<MedicalRecord> medicalRecords) {
-        this.medicalRecords = medicalRecords;
+    public void setMedicalrecords(List<MedicalRecord> medicalrecords) {
+        this.medicalrecords = medicalrecords;
+    }
+
+    public Data(List<Person> persons, List<FireStation> fireStations, List<MedicalRecord> medicalRecords) {
+        this.persons = persons;
+        this.firestations = fireStations;
+        this.medicalrecords = medicalRecords;
+    }
+
+    public Data() {
     }
 }
