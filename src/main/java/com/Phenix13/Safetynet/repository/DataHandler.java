@@ -1,33 +1,32 @@
 package com.Phenix13.Safetynet.repository;
 
 import com.Phenix13.Safetynet.model.Data;
-import com.Phenix13.Safetynet.model.Person;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
+import com.jsoniter.JsonIterator;
+import com.jsoniter.output.JsonStream;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Component;
-
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 
 @Component
 public class DataHandler {
 
     private final Data data;
 
-    public DataHandler() {
-
-        ObjectMapper mapper = new ObjectMapper();
-
-        try {
-            this.data = mapper.readValue(new File("src/main/resources/data.json"), Data.class);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+    public DataHandler() throws IOException{
+        String temp = getFromResource("data.json");
+        this.data = JsonIterator.deserialize(temp,Data.class);
     }
+
+    private String getFromResource(String s) throws IOException {
+        InputStream is = new ClassPathResource(s).getInputStream();
+        return IOUtils.toString(is, StandardCharsets.UTF_8);
+    }
+
+
     public Data getData() {
         return data;
     }

@@ -9,8 +9,8 @@ public class MedicalRecord {
     private String firstName;
     private String lastName;
     private Date birthdate;
-    private List<String> medications;
-    private List<String> allergies;
+    private String[] medications;
+    private String[] allergies;
 
     public String getFirstName() {
         return firstName;
@@ -36,23 +36,23 @@ public class MedicalRecord {
         this.birthdate = birthdate;
     }
 
-    public List<String> getMedications() {
+    public String[] getMedications() {
         return medications;
     }
 
-    public void setMedications(List<String> medications) {
+    public void setMedications(String[] medications) {
         this.medications = medications;
     }
 
-    public List<String> getAllergies() {
+    public String[] getAllergies() {
         return allergies;
     }
 
-    public void setAllergies(List<String> allergies) {
+    public void setAllergies(String[] allergies) {
         this.allergies = allergies;
     }
 
-    public MedicalRecord(String firstName, String lastName, Date birthdate, List<String> medications, List<String> allergies) {
+    public MedicalRecord(String firstName, String lastName, Date birthdate, String[] medications, String[] allergies) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.birthdate = birthdate;
