@@ -8,7 +8,7 @@ import java.util.List;
 public class MedicalRecord {
     private String firstName;
     private String lastName;
-    private Date birthdate;
+    private String birthdate;
     private String[] medications;
     private String[] allergies;
 
@@ -28,11 +28,11 @@ public class MedicalRecord {
         this.lastName = lastName;
     }
 
-    public Date getBirthdate() {
+    public String getBirthdate() {
         return birthdate;
     }
 
-    public void setBirthdate(Date birthdate) {
+    public void setBirthdate(String birthdate) {
         this.birthdate = birthdate;
     }
 
@@ -52,7 +52,7 @@ public class MedicalRecord {
         this.allergies = allergies;
     }
 
-    public MedicalRecord(String firstName, String lastName, Date birthdate, String[] medications, String[] allergies) {
+    public MedicalRecord(String firstName, String lastName, String birthdate, String[] medications, String[] allergies) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.birthdate = birthdate;
