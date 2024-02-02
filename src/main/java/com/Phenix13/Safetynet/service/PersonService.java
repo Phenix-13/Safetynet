@@ -7,6 +7,7 @@ import com.Phenix13.Safetynet.repository.FireStationRepository;
 import com.Phenix13.Safetynet.repository.PersonRepository;
 import com.Phenix13.Safetynet.service.DTO.ChildDTO;
 import com.Phenix13.Safetynet.service.DTO.PersonByStationDTO;
+import com.Phenix13.Safetynet.service.DTO.PersonInfoDTO;
 import com.Phenix13.Safetynet.service.DTO.StationNumberDTO;
 import org.springframework.stereotype.Service;
 
@@ -57,6 +58,7 @@ public class PersonService {
         List<ChildDTO> childList = new ArrayList<>();
         List<MedicalRecord> medicalRecords = personRepository.medicalRecordList();
         List<Person> personList = personRepository.personList();
+
         for (Person person:personList) {
             for(MedicalRecord medicalRecord:medicalRecords){
                 if(person.getFirstName().equals(medicalRecord.getFirstName()) && person.getLastName().equals(medicalRecord.getLastName()) && person.getAddress().equals(address)) {
@@ -69,12 +71,7 @@ public class PersonService {
                                 familyMember.add(people);
                             }
                         }
-                        ChildDTO child = new ChildDTO();
-                        child.setAge(age.toString());
-                        child.setFirstName(person.getFirstName());
-                        child.setLastName(person.getLastName());
-                        child.setFamilyMember(familyMember);
-                        childList.add(child);
+                        childList.add(new ChildDTO(person.getFirstName(),person.getLastName(),age.toString(),familyMember));
                     }
                 }
             }
@@ -128,5 +125,24 @@ public class PersonService {
         }
         StationNumberDTO stationNumberDTO = new StationNumberDTO(nbChild,nbAdult,personByStationDTOList);
         return stationNumberDTO;
+    }
+
+    public List<PersonInfoDTO> personInfoDTOList(String lastName){
+        List<PersonInfoDTO> personInfoDTOList = new ArrayList<>();
+
+        List<Person> personList = personRepository.personList();
+        List<MedicalRecord> medicalRecordList = personRepository.medicalRecordList();
+
+        for (Person person:personList){
+            if (person.getLastName().equals(lastName)){
+                for (MedicalRecord medicalRecord:medicalRecordList){
+                    if(person.getLastName().equals(medicalRecord.getLastName()) && person.getFirstName().equals(medicalRecord.getFirstName())){
+                        Integer age = parseAge(medicalRecord.getBirthdate());
+                        personInfoDTOList.add(new PersonInfoDTO(person.getLastName(),person.getAddress(),age,person.getEmail(),medicalRecord.getMedications(),medicalRecord.getAllergies()));
+                    }
+                }
+            }
+        }
+    return personInfoDTOList;
     }
 }
