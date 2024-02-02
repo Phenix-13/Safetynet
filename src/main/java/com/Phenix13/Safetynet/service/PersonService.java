@@ -1,21 +1,20 @@
 package com.Phenix13.Safetynet.service;
 
-import com.Phenix13.Safetynet.model.Data;
 import com.Phenix13.Safetynet.model.FireStation;
 import com.Phenix13.Safetynet.model.MedicalRecord;
 import com.Phenix13.Safetynet.model.Person;
 import com.Phenix13.Safetynet.repository.FireStationRepository;
 import com.Phenix13.Safetynet.repository.PersonRepository;
-import com.Phenix13.Safetynet.service.DTO.Child;
+import com.Phenix13.Safetynet.service.DTO.ChildDTO;
+import com.Phenix13.Safetynet.service.DTO.PersonByStationDTO;
+import com.Phenix13.Safetynet.service.DTO.StationNumberDTO;
 import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -23,12 +22,14 @@ import java.util.Objects;
 public class PersonService {
     public final PersonRepository personRepository;
     public final FireStationRepository fireStationRepository;
-    public final Child child;
+    public final ChildDTO child;
+    public final StationNumberDTO stationNumberDTO;
 
-    public PersonService(PersonRepository personRepository, FireStationRepository fireStationRepository, Child child) {
+    public PersonService(PersonRepository personRepository, FireStationRepository fireStationRepository, ChildDTO child, StationNumberDTO stationNumberDTO) {
         this.personRepository = personRepository;
         this.fireStationRepository = fireStationRepository;
         this.child = child;
+        this.stationNumberDTO = stationNumberDTO;
     }
 
     public List<String> communityEmail(){
@@ -52,8 +53,8 @@ public class PersonService {
         return listPhoneNumber;
     }
 
-    public List<Child> childAlert(String address) throws ParseException {
-        List<Child> childList = new ArrayList<>();
+    public List<ChildDTO> childAlert(String address) throws ParseException {
+        List<ChildDTO> childList = new ArrayList<>();
         List<MedicalRecord> medicalRecords = personRepository.medicalRecordList();
         List<Person> personList = personRepository.personList();
         for (Person person:personList) {
@@ -68,7 +69,7 @@ public class PersonService {
                                 familyMember.add(people);
                             }
                         }
-                        Child child = new Child();
+                        ChildDTO child = new ChildDTO();
                         child.setAge(age.toString());
                         child.setFirstName(person.getFirstName());
                         child.setLastName(person.getLastName());
@@ -89,4 +90,43 @@ public class PersonService {
         return Period.between(date,today).getYears();
     }
 
+    public StationNumberDTO stationNumber(String station){
+
+        List<PersonByStationDTO> personByStationDTOList = new ArrayList<>();
+
+        List<FireStation> fireStationList = fireStationRepository.fireStationList();
+        List<Person> personList = personRepository.personList();
+        List<MedicalRecord> medicalRecordList = personRepository.medicalRecordList();
+
+        for (FireStation fireStation:fireStationList){
+            if (fireStation.getStation().equals(station)){
+                for (Person person:personList){
+                    if (person.getAddress().equals(fireStation.getAddress())){
+                        personByStationDTOList.add(
+                                new PersonByStationDTO(person.getFirstName(),person.getLastName(),person.getAddress(),person.getPhone())
+                        );
+                    }
+                }
+            }
+        }
+
+        Integer nbChild = 0;
+        Integer nbAdult = 0;
+        for (PersonByStationDTO person:personByStationDTOList){
+            for (MedicalRecord medicalRecord:medicalRecordList){
+                if(person.getFirstName().equals(medicalRecord.getFirstName()) && person.getLastName().equals(medicalRecord.getLastName())){
+                    Integer age = parseAge(medicalRecord.getBirthdate());
+
+                    if (age <= 18) {
+                        nbChild ++ ;
+                    }
+                    else {
+                        nbAdult ++ ;
+                    }
+                }
+            }
+        }
+        StationNumberDTO stationNumberDTO = new StationNumberDTO(nbChild,nbAdult,personByStationDTOList);
+        return stationNumberDTO;
+    }
 }

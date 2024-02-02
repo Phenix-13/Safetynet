@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 @Component
-public class Child {
+public class ChildDTO {
     private String firstName;
     private String lastName;
     private String age;
@@ -46,14 +46,14 @@ public class Child {
         this.familyMember = familyMember;
     }
 
-    public Child(String firstName, String lastName, String age, List<Person> familyMember) {
+    public ChildDTO(String firstName, String lastName, String age, List<Person> familyMember) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.age = age;
         this.familyMember = familyMember;
 
     }
-    public Child(){
+    public ChildDTO(){
 
     }
 
