@@ -5,10 +5,7 @@ import com.Phenix13.Safetynet.model.MedicalRecord;
 import com.Phenix13.Safetynet.model.Person;
 import com.Phenix13.Safetynet.repository.FireStationRepository;
 import com.Phenix13.Safetynet.repository.PersonRepository;
-import com.Phenix13.Safetynet.service.DTO.ChildDTO;
-import com.Phenix13.Safetynet.service.DTO.PersonByStationDTO;
-import com.Phenix13.Safetynet.service.DTO.PersonInfoDTO;
-import com.Phenix13.Safetynet.service.DTO.StationNumberDTO;
+import com.Phenix13.Safetynet.service.DTO.*;
 import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
@@ -25,12 +22,14 @@ public class PersonService {
     public final FireStationRepository fireStationRepository;
     public final ChildDTO child;
     public final StationNumberDTO stationNumberDTO;
+    public final FireDTO fireDTO;
 
-    public PersonService(PersonRepository personRepository, FireStationRepository fireStationRepository, ChildDTO child, StationNumberDTO stationNumberDTO) {
+    public PersonService(PersonRepository personRepository, FireStationRepository fireStationRepository, ChildDTO child, StationNumberDTO stationNumberDTO, FireDTO fireDTO) {
         this.personRepository = personRepository;
         this.fireStationRepository = fireStationRepository;
         this.child = child;
         this.stationNumberDTO = stationNumberDTO;
+        this.fireDTO = fireDTO;
     }
 
     public List<String> communityEmail(){
@@ -144,5 +143,30 @@ public class PersonService {
             }
         }
     return personInfoDTOList;
+    }
+    public FireDTO fireListPerson(String address){
+        List<PersonInFireDTO> personInFireDTOList = new ArrayList<>();
+        List<FireStation> fireStationList = fireStationRepository.fireStationList();
+        List<Person> personList = personRepository.personList();
+        List<MedicalRecord> medicalRecordList = personRepository.medicalRecordList();
+
+        for (Person person:personList){
+            if (person.getAddress().equals(address)){
+                for (MedicalRecord medicalRecord:medicalRecordList){
+                    if (person.getLastName().equals(medicalRecord.getLastName()) && person.getFirstName().equals(medicalRecord.getFirstName())){
+                        Integer age = parseAge(medicalRecord.getBirthdate());
+                        personInFireDTOList.add(new PersonInFireDTO(person.getLastName(),person.getPhone(),age,medicalRecord.getMedications(),medicalRecord.getAllergies()));
+                    }
+                }
+            }
+        }
+
+        String station="";
+        for (FireStation fireStation:fireStationList){
+            if (fireStation.getAddress().equals(address)){
+                station = fireStation.getStation();
+            }
+        }
+        return new FireDTO(personInFireDTOList,station);
     }
 }

@@ -1,6 +1,7 @@
 package com.Phenix13.Safetynet.controller;
 
 import com.Phenix13.Safetynet.service.DTO.ChildDTO;
+import com.Phenix13.Safetynet.service.DTO.FireDTO;
 import com.Phenix13.Safetynet.service.DTO.PersonInfoDTO;
 import com.Phenix13.Safetynet.service.DTO.StationNumberDTO;
 import com.Phenix13.Safetynet.service.PersonService;
@@ -44,5 +45,10 @@ public class PersonController {
     @GetMapping("personInfo")
     public List<PersonInfoDTO> personInfoDTOList(@RequestParam(name="firstName") String firstName,@RequestParam(name="lastName")String lastName){
         return personService.personInfoDTOList(lastName);
+    }
+
+    @GetMapping("fire")
+    public FireDTO fireDTO(@RequestParam(name = "address")String address){
+        return personService.fireListPerson(address);
     }
 }
