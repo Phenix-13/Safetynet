@@ -24,7 +24,7 @@ public class PersonController {
         this.stationNumberDTO = stationNumberDTO;
     }
 
-    @GetMapping("communityEmail")
+    @GetMapping("communityEmail")//meh
     public List<String> communityEmail(){
         return personService.communityEmail();
     }

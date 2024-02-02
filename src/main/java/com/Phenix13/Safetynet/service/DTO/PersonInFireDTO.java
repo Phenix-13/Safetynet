@@ -17,7 +17,7 @@ public class PersonInFireDTO {
         this.age = age;
         this.medications = medications;
         this.allergies = allergies;
-    }
+    }//meh
 
     public PersonInFireDTO() {
     }

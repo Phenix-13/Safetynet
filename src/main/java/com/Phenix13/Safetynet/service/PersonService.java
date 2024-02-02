@@ -30,7 +30,7 @@ public class PersonService {
         this.child = child;
         this.stationNumberDTO = stationNumberDTO;
         this.fireDTO = fireDTO;
-    }
+    }//meh
 
     public List<String> communityEmail(){
         return personRepository.communityEmail();

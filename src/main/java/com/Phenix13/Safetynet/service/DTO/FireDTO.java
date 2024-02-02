@@ -13,7 +13,7 @@ public class FireDTO {
         this.station = station;
         this.persons = persons;
 
-    }
+    }//meh
 
     public FireDTO() {
     }
