@@ -34,4 +34,21 @@ public class PersonRepository {
     public List<MedicalRecord> medicalRecordList(){
         return dataHandler.getData().getMedicalrecords();
     }
+
+    public Person postPerson(Person person){
+        List<Person> personList = dataHandler.getData().getPersons();
+        personList.add(new Person(person.getFirstName(),person.getLastName(),person.getAddress(),person.getCity(),person.getZip(),person.getPhone(),person.getEmail()));
+        return person;
+    }
+    public Person updatePerson(Person person,Person putperson){
+        person.setAddress(putperson.getAddress());
+        person.setCity(putperson.getCity());
+        person.setZip(putperson.getZip());
+        person.setPhone(putperson.getPhone());
+        person.setEmail(putperson.getEmail());
+        return person;
+    }
+    public void deletePerson(int index){
+        personList().remove(index);
+    }
 }

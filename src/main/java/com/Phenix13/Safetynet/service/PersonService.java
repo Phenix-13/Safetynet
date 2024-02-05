@@ -181,21 +181,48 @@ public class PersonService {
     public List<FloodDTO> floodDTOList(List<String> station){
         List<FloodDTO> floodDTOList = new ArrayList<>();
         List<FireStation> fireStationList = fireStationRepository.fireStationList();
-        List<Person> personList = personRepository.personList();
-        List<MedicalRecord> medicalRecordList = personRepository.medicalRecordList();
         for (String stations:station){
             List<PersonByAddressDTO> personByAddressDTOList = new ArrayList<>();
-
             for (FireStation fireStation:fireStationList){
                 if (stations.equals(fireStation.getStation())){
-
                     List<PersonInFireDTO> personInFireDTOList = listPersonByAddress(fireStation.getAddress());
                     personByAddressDTOList.add(new PersonByAddressDTO(fireStation.getAddress(),personInFireDTOList));
-
                 }
             }
             floodDTOList.add(new FloodDTO(stations,personByAddressDTOList));
         }
         return floodDTOList;
     }
+
+    ////////////////////////////////////////////// == ENDPOINT == //////////////////////////////////////////////
+
+    public Person postPerson(Person person){
+        return personRepository.postPerson(person);
+    }
+
+    public List<Person> getAllPerson(){
+        return personRepository.personList();
+    }
+    public Person updatePerson(String firstName,String lastName,Person putperson){
+        for(Person person:personRepository.personList()){
+            if (person.getFirstName().equals(firstName) && person.getLastName().equals(lastName)){
+                personRepository.updatePerson(person,putperson);
+                break;
+            }
+        }
+        return putperson;
+    }
+    public void deletePerson(String firstName,String lastName){
+        int index = 0;
+        for (Person person:personRepository.personList()){
+            if (person.getFirstName().equals(firstName) && person.getLastName().equals(lastName)){
+                personRepository.deletePerson(index);
+                break;
+            }
+            index ++;
+        }
+    }
+
+
+
 }

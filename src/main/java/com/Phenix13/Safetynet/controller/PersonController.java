@@ -1,10 +1,9 @@
 package com.Phenix13.Safetynet.controller;
 
+import com.Phenix13.Safetynet.model.Person;
 import com.Phenix13.Safetynet.service.DTO.*;
 import com.Phenix13.Safetynet.service.PersonService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
 import java.util.List;
@@ -21,7 +20,7 @@ public class PersonController {
         this.stationNumberDTO = stationNumberDTO;
     }
 
-    @GetMapping("communityEmail")//meh
+    @GetMapping("communityEmail")
     public List<String> communityEmail(){
         return personService.communityEmail();
     }
@@ -53,4 +52,22 @@ public class PersonController {
     public List<FloodDTO> floodDTO(@RequestParam(name="stations")List<String> station){
         return personService.floodDTOList(station);
     }
+    ////////////////////////////////////////////// == ENDPOINT == //////////////////////////////////////////////
+    @PostMapping("person")
+    public Person addPerson(@RequestBody Person person){
+       return personService.postPerson(person);
+    }
+    @GetMapping("person")
+    public List<Person> getAllPerson(){
+        return personService.getAllPerson();
+    }
+    @PutMapping("person")
+    public Person updatePerson(@RequestParam(name="firstName")String firstName,@RequestParam(name="lastName") String lastName,@RequestBody Person person){
+        return personService.updatePerson(firstName,lastName,person);
+    }
+    @DeleteMapping("person")
+    public void deletePeron(@RequestParam(name="firstName")String firstName,@RequestParam(name="lastName") String lastName){
+        personService.deletePerson(firstName,lastName);
+    }
+
 }

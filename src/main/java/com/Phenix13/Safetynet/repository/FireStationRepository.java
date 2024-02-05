@@ -16,4 +16,18 @@ public class FireStationRepository {
         List<FireStation> fireStationList = dataHandler.getData().getFirestations();
         return fireStationList;
     }
+
+    public FireStation postFireStation(FireStation firestion){
+        fireStationList().add(new FireStation(firestion.getAddress(),firestion.getStation()));
+        return firestion;
+    }
+
+    public FireStation updateFireStation(FireStation fireStation,FireStation newfireStation){
+        fireStation.setStation(newfireStation.getStation());
+        return fireStation;
+    }
+
+    public void deleteFireStation(int index){
+        fireStationList().remove(index);
+    }
 }

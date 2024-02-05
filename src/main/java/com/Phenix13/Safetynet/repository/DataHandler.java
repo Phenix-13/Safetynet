@@ -1,6 +1,7 @@
 package com.Phenix13.Safetynet.repository;
 
 import com.Phenix13.Safetynet.model.Data;
+import com.Phenix13.Safetynet.model.Person;
 import com.jsoniter.JsonIterator;
 import com.jsoniter.output.JsonStream;
 import org.apache.commons.io.FileUtils;
@@ -30,4 +31,5 @@ public class DataHandler {
     public Data getData() {
         return data;
     }
+
 }
