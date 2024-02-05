@@ -1,9 +1,6 @@
 package com.Phenix13.Safetynet.controller;
 
-import com.Phenix13.Safetynet.service.DTO.ChildDTO;
-import com.Phenix13.Safetynet.service.DTO.FireDTO;
-import com.Phenix13.Safetynet.service.DTO.PersonInfoDTO;
-import com.Phenix13.Safetynet.service.DTO.StationNumberDTO;
+import com.Phenix13.Safetynet.service.DTO.*;
 import com.Phenix13.Safetynet.service.PersonService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -50,5 +47,10 @@ public class PersonController {
     @GetMapping("fire")
     public FireDTO fireDTO(@RequestParam(name = "address")String address){
         return personService.fireListPerson(address);
+    }
+
+    @GetMapping("flood/stations")
+    public List<FloodDTO> floodDTO(@RequestParam(name="stations")List<String> station){
+        return personService.floodDTOList(station);
     }
 }

@@ -85,6 +85,24 @@ public class PersonService {
         date.format(formatOut);
         return Period.between(date,today).getYears();
     }
+    public List<PersonInFireDTO> listPersonByAddress(String address){
+        List<Person> personList = personRepository.personList();
+        List<MedicalRecord> medicalRecordList = personRepository.medicalRecordList();
+        List<PersonInFireDTO> personInFireDTOList = new ArrayList<>();
+
+        for (Person person:personList){
+            if (address.equals(person.getAddress())){
+                for (MedicalRecord medicalRecord:medicalRecordList){
+                    if (person.getLastName().equals(medicalRecord.getLastName()) && person.getFirstName().equals(medicalRecord.getFirstName())){
+                        Integer age = parseAge(medicalRecord.getBirthdate());
+                        personInFireDTOList.add(new PersonInFireDTO(person.getLastName(),person.getPhone(),age,medicalRecord.getMedications(),medicalRecord.getAllergies()));
+                    }
+                }
+            }
+        }
+        return personInFireDTOList;
+    }
+
 
     public StationNumberDTO stationNumber(String station){
 
@@ -145,21 +163,11 @@ public class PersonService {
     return personInfoDTOList;
     }
     public FireDTO fireListPerson(String address){
-        List<PersonInFireDTO> personInFireDTOList = new ArrayList<>();
+
         List<FireStation> fireStationList = fireStationRepository.fireStationList();
         List<Person> personList = personRepository.personList();
         List<MedicalRecord> medicalRecordList = personRepository.medicalRecordList();
-
-        for (Person person:personList){
-            if (person.getAddress().equals(address)){
-                for (MedicalRecord medicalRecord:medicalRecordList){
-                    if (person.getLastName().equals(medicalRecord.getLastName()) && person.getFirstName().equals(medicalRecord.getFirstName())){
-                        Integer age = parseAge(medicalRecord.getBirthdate());
-                        personInFireDTOList.add(new PersonInFireDTO(person.getLastName(),person.getPhone(),age,medicalRecord.getMedications(),medicalRecord.getAllergies()));
-                    }
-                }
-            }
-        }
+        List<PersonInFireDTO> personInFireDTOList = listPersonByAddress(address);
 
         String station="";
         for (FireStation fireStation:fireStationList){
@@ -168,5 +176,26 @@ public class PersonService {
             }
         }
         return new FireDTO(personInFireDTOList,station);
+    }
+
+    public List<FloodDTO> floodDTOList(List<String> station){
+        List<FloodDTO> floodDTOList = new ArrayList<>();
+        List<FireStation> fireStationList = fireStationRepository.fireStationList();
+        List<Person> personList = personRepository.personList();
+        List<MedicalRecord> medicalRecordList = personRepository.medicalRecordList();
+        for (String stations:station){
+            List<PersonByAddressDTO> personByAddressDTOList = new ArrayList<>();
+
+            for (FireStation fireStation:fireStationList){
+                if (stations.equals(fireStation.getStation())){
+
+                    List<PersonInFireDTO> personInFireDTOList = listPersonByAddress(fireStation.getAddress());
+                    personByAddressDTOList.add(new PersonByAddressDTO(fireStation.getAddress(),personInFireDTOList));
+
+                }
+            }
+            floodDTOList.add(new FloodDTO(stations,personByAddressDTOList));
+        }
+        return floodDTOList;
     }
 }
