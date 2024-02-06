@@ -1,7 +1,6 @@
 package com.Phenix13.Safetynet.service;
 
 import com.Phenix13.Safetynet.model.MedicalRecord;
-import com.Phenix13.Safetynet.model.Person;
 import com.Phenix13.Safetynet.repository.MedicalRecordRepository;
 import org.springframework.stereotype.Service;
 

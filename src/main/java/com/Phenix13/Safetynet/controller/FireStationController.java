@@ -1,7 +1,5 @@
 package com.Phenix13.Safetynet.controller;
-
 import com.Phenix13.Safetynet.model.FireStation;
-import com.Phenix13.Safetynet.model.Person;
 import com.Phenix13.Safetynet.service.FireStationService;
 import org.springframework.web.bind.annotation.*;
 

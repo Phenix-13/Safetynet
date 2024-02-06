@@ -21,9 +21,7 @@ public class PersonController {
     }
 
     @GetMapping("communityEmail")
-    public List<String> communityEmail(){
-        return personService.communityEmail();
-    }
+    public List<String> communityEmail(){return personService.communityEmail();}
     @GetMapping("phoneAlert")
     public List<String> phoneAlert(@RequestParam(name = "firestation") String station){
         return personService.phoneAlert(station);
@@ -66,7 +64,7 @@ public class PersonController {
         return personService.updatePerson(firstName,lastName,person);
     }
     @DeleteMapping("person")
-    public void deletePeron(@RequestParam(name="firstName")String firstName,@RequestParam(name="lastName") String lastName){
+    public void deletePerson(@RequestParam(name="firstName")String firstName, @RequestParam(name="lastName") String lastName){
         personService.deletePerson(firstName,lastName);
     }
 
